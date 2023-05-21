@@ -29,7 +29,7 @@ Through the implementation of these steps we were able to make Cyanide Cinema, a
 
 
 ## Directions
-Enter into the search box the url: [https://cyanide-cinema.web.app](url)
+Enter into the search box the url: [https://cyanide-cinema.web.app]
 Enter the parameters:
 - Numerical
   - IMDB Rating(out of 10)
@@ -42,7 +42,7 @@ Enter the parameters:
 Receive a numerical probability as well as a “likely” or “not likely” piracy prediction
 
 ## Samples
-If you would like to analyze the dataset or try out some sample values, visit the Kaggle dataset: [https://www.kaggle.com/datasets/arsalanrehman/movies-dataset-from-piracy-website](url)
+If you would like to analyze the dataset or try out some sample values, visit the Kaggle dataset: [https://www.kaggle.com/datasets/arsalanrehman/movies-dataset-from-piracy-website]
 
 We suggest using the provided sample inputs from the Kaggle Dataset. However, you can employ any numerical and categorical values to gain an understanding of which movies are more likely to be pirated.
 Sample Inputs (Kaggle):
@@ -66,7 +66,7 @@ Sample Inputs (Kaggle):
       - Language: English
     - **DID NOT SURPASS 1K DOWNLOADS(NOT LIKELY TO BE PIRATED)**
 
-If you would like to view the development process behind Cyanide Cinema, please take a look at our Colab Notebook: [https://colab.research.google.com/drive/19eoS-rnWhCw_dLEmHwnUvXo2NU0jM8QO?usp=sharing](url)
+If you would like to view the development process behind Cyanide Cinema, please take a look at our Colab Notebook: [https://colab.research.google.com/drive/19eoS-rnWhCw_dLEmHwnUvXo2NU0jM8QO?usp=sharing]
 
 ## Contributors
 - Aneesh Kandimalla 
