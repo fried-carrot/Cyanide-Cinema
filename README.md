@@ -16,6 +16,11 @@ In order to create Cyanide Cinema, we utilized Python, React, GPT-3.5, and Tenso
   - Host and implement trained model.
   - Estimate the likelihood of piracy.
 
+- Utilized GPT-3.5 to:
+  - Create the textual outputs that accompany the figures.
+    - Includes Normal, Poetic, and Pirate mode
+      - *In order of increasing levels of humor* 
+
 - Utilized ReactJS for:
   - developing the user interface.
   - Hosting the final application
