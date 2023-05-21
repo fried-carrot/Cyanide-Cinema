@@ -10,7 +10,6 @@ In order to create Cyanide Cinema, we utilized Python, React, GPT-3.5, and Tenso
 - Utilized Python for:
   - Laying the basis for our model.
   - Training our model.
-  - Setting up our Llama Server.
 
 - Used Tensorflow.js to:
   - Host and implement trained model.
@@ -18,12 +17,12 @@ In order to create Cyanide Cinema, we utilized Python, React, GPT-3.5, and Tenso
 
 - Utilized GPT-3.5 to:
   - Create the textual outputs that accompany the figures.
-    - Includes Normal, Poetic, and Pirate mode
+    - Includes Normal, Poetic, and Pirate mode.
       - *In order of increasing levels of humor* 
 
 - Utilized ReactJS for:
   - developing the user interface.
-  - Hosting the final application
+  - Hosting the final application.
 
 Through the implementation of these steps we were able to make Cyanide Cinema, an advanced Machine Learning algorithm for predicting the likelihood of piracy of a given movie, a reality.
 
@@ -66,7 +65,7 @@ Sample Inputs (Kaggle):
       - Language: English
     - **DID NOT SURPASS 1K DOWNLOADS(NOT LIKELY TO BE PIRATED)**
 
-If you would like to view the development process behind Cyanide Cinema, please take a look at our Colab Notebook: [https://colab.research.google.com/drive/19eoS-rnWhCw_dLEmHwnUvXo2NU0jM8QO?usp=sharing]
+If you would like to view the development process behind Cyanide Cinema, please take a look at our Colab Notebook: [https://colab.research.google.com/drive/19eoS-rnWhCw_dLEmHwnUvXo2NU0jM8QO?usp=sharing]*(Not our most efficient model, but still produces a lost of < 0.5 and high accuracy)*
 
 ## Contributors
 - Aneesh Kandimalla 
