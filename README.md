@@ -39,7 +39,7 @@ Receive a numerical probability as well as a “likely” or “not likely” pi
 ## Samples
 If you would like to analyze the dataset or try out some sample values, visit the Kaggle dataset: https://www.kaggle.com/datasets/arsalanrehman/movies-dataset-from-piracy-website
 We suggest using the provided sample inputs from the Kaggle Dataset. However, you can employ any numerical and categorical values to gain an understanding of which movies are more likely to be pirated.
-Sample Inputs(Kaggle):
+Sample Inputs (Kaggle):
 - Sample 1:
   - Numerical
     - IMDB: 4.6
