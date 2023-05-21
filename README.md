@@ -65,6 +65,8 @@ Sample Inputs (Kaggle):
       - Language: English
     - **DID NOT SURPASS 1K DOWNLOADS(NOT LIKELY TO BE PIRATED)**
 
+If you would like to view the development process behind Cyanide Cinema please take a look at our Colab: [https://colab.research.google.com/drive/19eoS-rnWhCw_dLEmHwnUvXo2NU0jM8QO?usp=sharing](url)
+
 ## Contributors
 - Aneesh Kandimalla 
   - Github: r3sgame
