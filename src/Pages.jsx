@@ -9,12 +9,12 @@ import { Home } from "@mui/icons-material";
 import * as tf from '@tensorflow/tfjs';
 import {loadGraphModel} from '@tensorflow/tfjs-converter';
 import AddIcon from '@mui/icons-material/Add';
+import { Configuration, OpenAIApi } from 'openai';
 
 export function Splash() {
 
   return (
     <React.Fragment>
-
       <Jello><img className="App-logo" src={logo}/></Jello>
       <Fade><Typography variant="h5">Cyanide Cinema</Typography></Fade>
       <Paper variant="outlined" sx={{marginBottom: 10,marginLeft: '28.5%', width: '40%', p: 2.5, flexDirection: 'row', overflow: 'auto'}}>
@@ -23,13 +23,19 @@ export function Splash() {
         </Fade>
         <Divider sx={{marginTop: 2}}/>
         <Button href="/predict" sx={{marginTop: 2}}><Typography color="inherit" variant="body2">Try it</Typography></Button>
-        <Button href="https://discord.gg/2h4ueYc" color="secondary" sx={{marginTop: 2}}><Typography color="secondary" variant="body2">Source</Typography></Button>
+        <Button href="https://github.com/fried-carrot/Cyanide-Cinema" color="secondary" sx={{marginTop: 2}}><Typography color="secondary" variant="body2">Source</Typography></Button>
         </Paper>
     </React.Fragment>
   )
 }
 
 export function Predictor() {
+  const configuration = new Configuration({
+    apiKey: 'APIKEY',
+});
+
+  const openai = new OpenAIApi(configuration);
+
   const [loadState, setLoadState] = useState(0);
 
   const [model, setModel] = useState();
@@ -42,22 +48,44 @@ export function Predictor() {
   const [industry, setIndustry] = useState();
   const [language, setLanguage] = useState();
 
+  const [report, setReport] = useState();
+
+  const pirateMode = ["Be serious, and do NOT act like a pirate or poet.", "Make at least one sentence of your response creative and funny, like a poet.", "Make your response creative and funny, like a pirate."];
+
   async function loadModel() {
     try {
-    const model = await tf.loadLayersModel('http://localhost:5173/v7_js/model.json');
+    const model = await tf.loadLayersModel('https://cyanide-cinema.web.app/v69.2264_js/model.json');
     setModel(model);
     console.log("Load model success")
-    let tensor = tf.reshape(tf.cast([1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 'float32'), [1,78])
-    setPrediction(model.predict(tensor).dataSync());
     }
     catch (err) {
     console.log(err);
     }
     }
 
-    async function predict() {
+    function getPirateRank(result) {
+      let pirateRating;
+      if(0 <= result && result <= 0.2) {
+        pirateRating = "very low"
+        return pirateRating;
+      } else if (0.2 < result && result <= 0.4) {
+        pirateRating = "low"
+        return pirateRating;
+      } else if (0.4 < result && result <= 0.6) {
+        pirateRating = "somewhat high"
+        return pirateRating;
+      } else if (0.6 < result && result <= 0.8) {
+        pirateRating = "high"
+        return pirateRating;
+      } else if (0.8 < result && result <= 1) {
+        pirateRating = "very high"
+        return pirateRating;
+      }
+    }
+
+    async function predict(mode) {
       try {
-        // console.log(typeof(imdb), typeof(runtime))
+      setLoadState(1);
       let array = [Number(imdb), Number(runtime), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       
       switch (appropriate) {
@@ -284,7 +312,16 @@ export function Predictor() {
       }
 
       let tensor = tf.reshape(tf.cast(array, 'float32'), [1,78])
-      setPrediction(model.predict(tensor).dataSync());
+      const result = await model.predict(tensor).dataSync()
+      setPrediction(result);
+
+      const response = await openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: "The likelihood of a movie surpassing 1000 pirated downloads is " + (100*result).toFixed(1) + " percent, which is " + getPirateRank(result) + ". Because this probability is " + getPirateRank(result) + ", identify the potential results of this for the movie maker. If the rate is low, provide only good things. Respond in 4 to 5 sentences. You must repeat the percentage rate in the first sentence of the response. " + pirateMode[mode]}],
+        temperature: 0.8
+      });
+      setReport(response.data.choices[0].message.content)
+      setLoadState(2);
       }
       catch (err) {
       console.log(err);
@@ -297,22 +334,6 @@ export function Predictor() {
     loadModel()
     });
     },[])
-
-  function GetLikeCount() {
-    setLoadState(1);
-
-    axios.post('http://r3s.sytes.net', {
-      "text": text,
-      "followerCount": followers
-    })
-    .then(function (response) {
-      setLikes(response.data.Likes)
-      setLoadState(2)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
 
   return (
     <React.Fragment>
@@ -361,11 +382,10 @@ export function Predictor() {
     <MenuItem value={3}>Bollywood</MenuItem>
     <MenuItem value={4}>Dubs (Dual Audio)</MenuItem>
     <MenuItem value={5}>Hollywood</MenuItem>
-    <MenuItem value={6}>MA-17</MenuItem>
-    <MenuItem value={7}>Pakistani</MenuItem>
-    <MenuItem value={8}>Punjabi</MenuItem>
-    <MenuItem value={9}>Stage Shows</MenuItem>
-    <MenuItem value={10}>Tollywood</MenuItem>
+    <MenuItem value={6}>Pakistani</MenuItem>
+    <MenuItem value={7}>Punjabi</MenuItem>
+    <MenuItem value={8}>Stage Shows</MenuItem>
+    <MenuItem value={9}>Tollywood</MenuItem>
     <MenuItem value={10}>Wresling</MenuItem>
   </Select>
 </FormControl>
@@ -425,9 +445,9 @@ export function Predictor() {
 <TextField id="imdb" label="IMDB Rating (Out of 10)" variant="outlined" type="number" onChange={(e) => setImdb(e.target.value)}/>
 <TextField id="runtime" label="Runtime (Minutes)" variant="outlined" type="number" onChange={(e) => setRuntime(e.target.value)}/>
       <Divider />
-      <List>
-      <ListItem key='Generate' disablePadding>
-            <ListItemButton onClick={predict} color="text.primary">
+      {imdb && runtime && appropriate && industry && language ? (<List>
+        <ListItem key='Generate' disablePadding>
+            <ListItemButton onClick={() => predict(0)} color="text.primary">
               <ListItemIcon>
                 <AddIcon />
               </ListItemIcon>
@@ -435,7 +455,7 @@ export function Predictor() {
             </ListItemButton>
           </ListItem>
           <ListItem key='Generate (Poetic Mode)' disablePadding>
-            <ListItemButton onClick={predict} color="text.primary">
+            <ListItemButton onClick={() => predict(1)} color="text.primary">
               <ListItemIcon>
                 <AddIcon />
               </ListItemIcon>
@@ -443,13 +463,40 @@ export function Predictor() {
             </ListItemButton>
           </ListItem>
           <ListItem key='Generate (Pirate Mode)' disablePadding>
-            <ListItemButton onClick={predict} color="text.primary">
+            <ListItemButton onClick={() => predict(2)} color="text.primary">
               <ListItemIcon>
                 <AddIcon />
               </ListItemIcon>
               <ListItemText variant='p' primary='Generate (Pirate Mode)' />
             </ListItemButton>
           </ListItem>
+          </List>) : (<List><ListItem key='Generate' disablePadding>
+            <ListItemButton disabled color="text.primary">
+              <ListItemIcon>
+                <AddIcon />
+              </ListItemIcon>
+              <ListItemText variant='p' primary='Generate' />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key='Generate (Poetic Mode)' disablePadding>
+            <ListItemButton disabled color="text.primary">
+              <ListItemIcon>
+                <AddIcon />
+              </ListItemIcon>
+              <ListItemText variant='p' primary='Generate (Poetic Mode)' />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key='Generate (Pirate Mode)' disablePadding>
+            <ListItemButton disabled color="text.primary">
+              <ListItemIcon>
+                <AddIcon />
+              </ListItemIcon>
+              <ListItemText variant='p' primary='Generate (Pirate Mode)' />
+            </ListItemButton>
+          </ListItem>
+          </List>)}
+
+          <List>
           <ListItem key='Home' disablePadding>
             <ListItemButton href='/updates'>
               <ListItemIcon>
@@ -474,8 +521,8 @@ export function Predictor() {
           <ListItem><Typography variant="body2" sx={{textAlign: 'left'}}>Recent movies are more accessible, meaning they can be pirated easily.</Typography></ListItem>
         </List>
         </Fade>}
-        {loadState == 1 && <CircularProgress/>}
-        <Fade><Typography variant="body2" sx={{textAlign: 'left'}}>Chance of piracy susceptibility: {(100*prediction).toFixed(1)}%</Typography></Fade>
+        {loadState == 1 && <React.Fragment><CircularProgress/><br/><Typography variant="body2">Generating... Please wait...</Typography></React.Fragment>}
+        {loadState == 2 && <Fade><Typography variant="body2" sx={{textAlign: 'left'}}>{report}</Typography><br/><Typography variant="body2" sx={{textAlign: 'left'}}>Piracy risk rate: {(100*prediction).toFixed(1)}%</Typography></Fade>}
       </Paper>
         </React.Fragment>
   )

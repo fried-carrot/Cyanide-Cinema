@@ -3,6 +3,7 @@ import { createTheme, Divider, Drawer, List, ListItem, ListItemButton, ListItemI
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import {Predictor, Splash} from "./Pages";
+import ParticleBackground from 'react-particle-backgrounds'
 
 function App() {
 
@@ -52,9 +53,36 @@ function App() {
     }
   });
 
+  const settings = {
+    canvas: {
+      canvasFillSpace: true,
+      width: 200,
+      height: 200,
+      useBouncyWalls: false
+    },
+    particle: {
+      particleCount: 50,
+      color: '#94ecbe',
+      minSize: 2,
+      maxSize: 5
+    },
+    velocity: {
+      directionAngle: 0,
+      directionAngleVariance: 360,
+      minSpeed: 1,
+      maxSpeed: 3
+    },
+    opacity: {
+      minOpacity: 0,
+      maxOpacity: 0.5,
+      opacityTransitionTime: 3000
+    }
+  }
+
 
   return (
     <ThemeProvider theme={theme}>
+      
         <BrowserRouter>
     <Routes>
 
@@ -64,6 +92,20 @@ function App() {
     <Route path="*" element={<Navigate to="/" replace />} />
 </Routes>
 </BrowserRouter>
+<div className="area">
+<ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+</div>
       </ThemeProvider>
   )
 }
