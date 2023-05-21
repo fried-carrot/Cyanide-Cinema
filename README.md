@@ -2,7 +2,7 @@
 Artificial Intelligence tool to generate detailed piracy reports. 
 
 ## Overview
-Around the world, over 75 million movies are pirated daily. This abhorrent piracy has led to a drastic decrease in annual movie profits – a measured decrease of nearly 25%. Imagine if the movie industry were able to determine whether their movie was likely to be pirated. This insight would allow them to take definitive and immediate action against threats of piracy. With Cyanide Cinema, we hope to make this vision a reality.
+Every day, 75 million movies are illegally downloaded, cutting movie profits by almost 25%. If the industry knew which films were piracy targets, they could act fast. Cyanide Cinema is working to make this happen.
 
 ## Tools
 In order to create Cyanide Cinema, we utilized Python, React, GPT-3.5, and Tensorflow .js. 
